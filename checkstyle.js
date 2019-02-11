@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const esprima = require('esprima');
 const estraverse = require('estraverse');
 
@@ -15,7 +14,7 @@ function checkStyle(code, filename) {
 }
 
 function checkVariableNames(node, errors) {
-    _.each(node.declarations, function(decl) {
+    node.declarations.forEach(function(decl) {
         if (decl.id.name.indexOf('_') >= 0) {
             return errors.push({
                 location: decl.loc,
@@ -28,7 +27,7 @@ function checkVariableNames(node, errors) {
 // Takes a list of errors found by `checkStyle`, and returns a list of
 // human-readable error messages.
 function formatErrors(code, errors, filename) {
-    return _.map(errors, function(e) {
+    return errors.map(function(e) {
         const loc = e.location.start;
         const prefix = (typeof filename === "function" ?
                 filename("" + filename + ":" + loc.line + ":" + loc.column) : void 0) ? void 0 :
