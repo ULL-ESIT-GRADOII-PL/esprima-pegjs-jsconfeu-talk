@@ -1,9 +1,9 @@
-let _ = require('underscore');
-let esprima = require('esprima');
-let estraverse = require('estraverse');
+const _ = require('underscore');
+const esprima = require('esprima');
+const estraverse = require('estraverse');
 
 function checkStyle(code, filename) {
-    let ast = esprima.parse(code, parseOptions);
+    const ast = esprima.parse(code, parseOptions);
     let errors = [];
     estraverse.traverse(ast, {
         enter: function(node, parent) {
@@ -29,20 +29,20 @@ function checkVariableNames(node, errors) {
 // human-readable error messages.
 function formatErrors(code, errors, filename) {
     return _.map(errors, function(e) {
-        let loc = e.location.start;
-        let prefix = (typeof filename === "function" ?
+        const loc = e.location.start;
+        const prefix = (typeof filename === "function" ?
                 filename("" + filename + ":" + loc.line + ":" + loc.column) : void 0) ? void 0 :
             "Line " + loc.line + ", column " + loc.column;
         return "" + prefix + ": " + e.message;
     });
 }
 
-let parseOptions = {
+const parseOptions = {
     loc: true,
     range: true
 };
 
-let input = `var foo = bar;
+const input = `var foo = bar;
 var this_is_bad = 3;
 function blah() {
   return function x() {
@@ -50,7 +50,7 @@ function blah() {
   }
 }`;
 
-let output = checkStyle(input);
+const output = checkStyle(input);
 
 console.log("input ----\n"+input+"\n---\n");
 console.log("output ----\n"+output.join("\n")+"\n---\n");
