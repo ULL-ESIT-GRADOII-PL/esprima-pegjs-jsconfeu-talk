@@ -1,10 +1,10 @@
-var _ = require('underscore');
-var esprima = require('esprima');
-var estraverse = require('estraverse');
+let _ = require('underscore');
+let esprima = require('esprima');
+let estraverse = require('estraverse');
 
 function checkStyle(code, filename) {
-    var ast = esprima.parse(code, parseOptions);
-    var errors = [];
+    let ast = esprima.parse(code, parseOptions);
+    let errors = [];
     estraverse.traverse(ast, {
         enter: function(node, parent) {
             if (node.type === 'VariableDeclaration')
@@ -29,15 +29,15 @@ function checkVariableNames(node, errors) {
 // human-readable error messages.
 function formatErrors(code, errors, filename) {
     return _.map(errors, function(e) {
-        var loc = e.location.start;
-        var prefix = (typeof filename === "function" ?
+        let loc = e.location.start;
+        let prefix = (typeof filename === "function" ?
                 filename("" + filename + ":" + loc.line + ":" + loc.column) : void 0) ? void 0 :
             "Line " + loc.line + ", column " + loc.column;
         return "" + prefix + ": " + e.message;
     });
 }
 
-var parseOptions = {
+let parseOptions = {
     loc: true,
     range: true
 };
