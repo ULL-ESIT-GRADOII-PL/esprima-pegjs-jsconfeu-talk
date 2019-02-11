@@ -42,11 +42,15 @@ var parseOptions = {
     range: true
 };
 
-console.log(checkStyle(`
-var foo = bar;
+let input = `var foo = bar;
 var this_is_bad = 3;
 function blah() {
   return function x() {
     var oops_another_one;
   }
-}`));
+}`;
+
+let output = checkStyle(input);
+
+console.log("input ----\n"+input+"\n---\n");
+console.log("output ----\n"+output.join("\n")+"\n---\n");
