@@ -1,3 +1,5 @@
+// http://estools.github.io/escope/
+
 const inspect = require('util').inspect;
 var escope = require('escope');
 var esprima = require('esprima');

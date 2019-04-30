@@ -13,7 +13,7 @@ expr
   / decl
 
 decl = id:ident ' := ' e:expr
-     { return 'var ' + id + ' = ' + e.join('') + ';'; }
+     { return 'let ' + id + ' = ' + e.join('') + ';'; }
 
 ident = (digit / letter / '_')+
 
