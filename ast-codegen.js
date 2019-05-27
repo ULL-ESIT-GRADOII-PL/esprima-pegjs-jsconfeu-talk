@@ -1,4 +1,3 @@
-//
 // Tests: https://github.com/estools/escodegen/blob/master/test/test.js
 const util = require('util');
 const ins = (x) => util.inspect(x, {depth: null});
@@ -14842,6 +14841,32 @@ let data = {
     }
 }
 
+function listTrees() {
+/*
+    Object.keys(data).forEach(function (category) {
+        it(category, function () {
+            Object.keys(data[category]).forEach(function (source) {
+                var expected = data[category][source];
+                runTest(source, expected);
+            });
+        });
+    });
+  */
+  Object.keys(data).forEach(function (category, index) {
+      console.log(`******************* category ${category} *******************`);
+      console.log(ins(data[category]));
+    /*
+      Object.keys(data[category]).forEach(function (source) {
+        console.log(`******************* example *******************`);
+        console.log(data[category][source]);
+      })
+     */
+  });
+}
+
+listTrees();
+
+/*
 let result = escodegen.generate(data['Primary Expression']['this\n']);
 console.log("******************* begin source *******************");
 console.log(ins(data['Primary Expression']['this\n']));
@@ -14856,3 +14881,11 @@ console.log("******************** end source ********************");
 console.log(result);
 console.log("******************** end result ********************\n");
 
+// '{ doThis(); doThat(); }'
+result = escodegen.generate(data['Block']['{ doThis(); doThat(); }']);
+console.log("******************* begin source *******************");
+console.log(ins(data['Block']['{ doThis(); doThat(); }']));
+console.log("******************** end source ********************");
+console.log(result);
+console.log("******************** end result ********************\n");
+*/
