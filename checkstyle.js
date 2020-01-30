@@ -41,7 +41,8 @@ const parseOptions = {
     range: true
 };
 
-const input = `var foo = bar;
+const input = `
+var foo = bar;
 var this_is_bad = 3;
 function blah() {
   return function x() {
