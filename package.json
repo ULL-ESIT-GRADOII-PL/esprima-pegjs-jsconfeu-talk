@@ -9,6 +9,7 @@
     },
     "dependencies": {
         "acorn": "^6.4.2",
+        "commander": "^7.1.0",
         "escodegen": "^1.14.3",
         "escope": "^3.6.0",
         "espree": "^7.3.1",
