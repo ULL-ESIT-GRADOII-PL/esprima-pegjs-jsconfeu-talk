@@ -1,33 +1,56 @@
-let esprima, estraverse, idgrep, parseOptions;
+const fs = require('fs');
+const esprima = require('espree');
+const program = require('commander');
+const { version, description } = require('./package.json');
+const estraverse = require('estraverse');
 
-esprima = require('esprima');
-
-estraverse = require('estraverse');
-
-idgrep = function (pattern, code, filename) {
-    let ast, lines;
-    lines = code.split('\n');
-    ast = esprima.parse(code, parseOptions);
+const idgrep = function (pattern, code, filename) {
+    const lines = code.split('\n');
+    const ast = esprima.parse(code, {
+        ecmaVersion: 6,
+        loc: true,
+        range: true
+    });
     estraverse.traverse(ast, {
         enter: function (node, parent) {
-            var line, loc;
             if (node.type === 'Identifier' && node.name.indexOf(pattern) >= 0) {
-                loc = node.loc.start;
-                line = loc.line - 1;
+                let loc = node.loc.start;
+                let line = loc.line - 1;
                 console.log("" + line + ":" + loc.column + ": " + lines[line]);
             }
         }
     });
 };
 
-parseOptions = {
-    loc: true,
-    range: true
-};
+program
+    .version(version)
+    .description(description)
+    .usage('[options] <filename> [...]');
 
-idgrep('hack', `
-  // This is a hack!
-  function hacky_function() {
-     var hack = 3;
-     return 'hacky string';
-   }`);
+
+program.parse(process.argv);
+
+let inputFilename = program.args.shift();
+try {
+    if (inputFilename) {
+        fs.readFile(inputFilename, 'utf8', (err, input) => {
+            debugger;
+            if (err) throw `Error reading '${inputFilename}':${err}`;
+            idgrep('hack', input, inputFilename);
+        })
+    } else {
+        program.help();
+    }
+} catch (e) {
+    console.log(`Errores! ${e}`);
+}
+
+/*
+  idgrep('hack', `
+// This is a hack!
+function hacky_function() {
+   var hack = 3;
+   return 'hacky string';
+ }`);
+
+ */
