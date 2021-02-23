@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
 const esprima = require('espree');
 const program = require('commander');
