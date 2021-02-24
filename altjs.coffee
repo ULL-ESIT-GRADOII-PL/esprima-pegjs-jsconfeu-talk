@@ -7,7 +7,7 @@ grammar = """
   var flatten = require('underscore').flatten;
 }
 
-program = e:expr? rest:(('.' [\\n ]* e:expr){ return e; })*
+program = e:expr? rest:('.' [\\n ]* e2:expr { return e2; })*
           { return [e].concat(rest).join('\\n'); }
 
 expr
@@ -34,5 +34,5 @@ number
 
 """
 
-parser = PEG.buildParser(grammar, { trackLineAndColumn: true })
+parser = PEG.generate(grammar, { trackLineAndColumn: true })
 console.log(parser.parse("x := 2+5. y := 3"))
