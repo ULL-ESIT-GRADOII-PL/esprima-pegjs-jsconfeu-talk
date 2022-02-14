@@ -1,12 +1,3 @@
-#!/usr/bin/env node
-
-/* 
-Run it this way:
-./idgrep.js hacky.js
-1:6: const hacky = () => {
-2:8:     let hack = 3;
- */
-
 const fs = require('fs');
 const esprima = require('espree');
 const program = require('commander');
@@ -25,19 +16,20 @@ const idgrep = function (pattern, code, filename) {
             if (node.type === 'Identifier' && node.name.indexOf(pattern) >= 0) {
                 let loc = node.loc.start;
                 let line = loc.line - 1;
-                console.log(`${line}:${loc.column}: ${lines[line]}`);
+                console.log(`file ${filename}: line ${line}: col: ${loc.column} text: ${lines[line]}`);
             }
         }
     });
 };
+
+
+program.parse(process.argv);
 
 program
     .version(version)
     .description(description)
     .usage('[options] <filename> [...]');
 
-
-program.parse(process.argv);
 
 let inputFilename = program.args.shift();
 try {
@@ -54,3 +46,12 @@ try {
     console.log(`Errores! ${e}`);
 }
 
+/*
+  idgrep('hack', `
+// This is a hack!
+function hacky_function() {
+   var hack = 3;
+   return 'hacky string';
+ }`);
+
+ */
