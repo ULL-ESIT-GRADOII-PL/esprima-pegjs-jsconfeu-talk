@@ -1,9 +1,10 @@
-const esprima = require('esprima');
-const estraverse = require('estraverse');
+var _ = require('underscore');
+var esprima = require('espree');
+var estraverse = require('estraverse');
 
 function checkStyle(code, filename) {
-    const ast = esprima.parse(code, parseOptions);
-    let errors = [];
+    var ast = esprima.parse(code, parseOptions);
+    var errors = [];
     estraverse.traverse(ast, {
         enter: function(node, parent) {
             if (node.type === 'VariableDeclaration')
@@ -14,7 +15,7 @@ function checkStyle(code, filename) {
 }
 
 function checkVariableNames(node, errors) {
-    node.declarations.forEach(function(decl) {
+    _.each(node.declarations, function(decl) {
         if (decl.id.name.indexOf('_') >= 0) {
             return errors.push({
                 location: decl.loc,
@@ -27,30 +28,25 @@ function checkVariableNames(node, errors) {
 // Takes a list of errors found by `checkStyle`, and returns a list of
 // human-readable error messages.
 function formatErrors(code, errors, filename) {
-    return errors.map(function(e) {
-        const loc = e.location.start;
-        const prefix = (typeof filename === "function" ?
+    return _.map(errors, function(e) {
+        var loc = e.location.start;
+        var prefix = (typeof filename === "function" ?
                 filename("" + filename + ":" + loc.line + ":" + loc.column) : void 0) ? void 0 :
             "Line " + loc.line + ", column " + loc.column;
         return "" + prefix + ": " + e.message;
     });
 }
 
-const parseOptions = {
+var parseOptions = {
     loc: true,
     range: true
 };
 
-const input = `
+console.log(checkStyle(`
 var foo = bar;
 var this_is_bad = 3;
 function blah() {
   return function x() {
     var oops_another_one;
   }
-}`;
-
-const output = checkStyle(input);
-
-console.log("input ----\n"+input+"\n---\n");
-console.log("output ----\n"+output.join("\n")+"\n---\n");
+}`));
