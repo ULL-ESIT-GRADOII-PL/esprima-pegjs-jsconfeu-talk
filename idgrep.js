@@ -2,7 +2,7 @@
 const fs = require("fs");
 const esprima = require("espree");
 const program = require("commander");
-const { version, description } = require("./package.json");
+const { version } = require("./package.json");
 const estraverse = require("estraverse");
 
 const idgrep = function (pattern, code, filename) {
@@ -19,7 +19,7 @@ const idgrep = function (pattern, code, filename) {
         let loc = node.loc.start;
         let line = loc.line - 1;
         console.log(
-          `file ${filename}: line ${line}: col: ${loc.column} text: ${lines[line]}`
+          `file ${filename}: line ${loc.line}: col: ${loc.column} text: ${lines[line]}`
         );
       }
     },
@@ -28,9 +28,9 @@ const idgrep = function (pattern, code, filename) {
 
 program
   .version(version)
-  .description(description)
+  .description('Searches for IDs in a list of programs')
   .option("-p --pattern [regexp]", "regexp to use in the search", "hack")
-  .usage("[options] <filename>");
+  .usage("[options] <filename> ...");
 
 program.parse(process.argv);
 const options = program.opts();
