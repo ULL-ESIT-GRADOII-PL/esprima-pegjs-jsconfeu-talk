@@ -2,8 +2,8 @@
     "name": "jsconfeu-talk",
     "author": "Patrick Dubroy <pdubroy@gmail.com>",
     "scripts": {
-        "sh": "node --inspect-brk syntax-highlight.js",
-        "grep": "node --inspect-brk idgrep.js hacky.js",
+        "sh": "node examples/syntax-highlight.js",
+        "grep": "node examples/idgrep/idgrep.js examples/idgrep/hacky.js",
         "log": "node --inspect-brk logging.js",
         "solution": "node ./p0-t0-esprima-logging-sol.js input.js -o out.js && node out.js",
         "publish": "git ci -am modified && git push origin master",

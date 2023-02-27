@@ -28,6 +28,7 @@ function removeCalls(source) {
 let source = `
 console.log("hello");
 a = 4;`;
+
 console.log(removeCalls(source));
 
 /*

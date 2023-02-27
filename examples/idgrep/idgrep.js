@@ -2,7 +2,7 @@
 const fs = require("fs");
 const esprima = require("espree");
 const program = require("commander");
-const { version } = require("./package.json");
+const { version } = require("../../package.json");
 const estraverse = require("estraverse");
 
 const idgrep = function (pattern, code, filename) {
